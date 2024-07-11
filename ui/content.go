@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/billzayy/to-do-list/pkg"
 )
@@ -25,13 +24,14 @@ func Content(option int, list *pkg.Todo) {
 }
 
 func AddTodo(todo *pkg.Todo) {
-	reader := bufio.NewReader(os.Stdin)
+	reader := bufio.NewScanner(os.Stdin)
 
 	fmt.Print("Add tasks : ")
+	reader.Scan()
 
-	item, _ := reader.ReadString('\n')
+	item := reader.Text()
 
-	todo.Add(strings.Split(item, "\n")[0])
+	todo.Add(item)
 }
 
 func DeleteTodo(todo *pkg.Todo) {
@@ -44,18 +44,18 @@ func DeleteTodo(todo *pkg.Todo) {
 }
 
 func UpdateItem(todo *pkg.Todo) {
-	reader := bufio.NewReader(os.Stdin)
+	reader := bufio.NewScanner(os.Stdin)
 
 	var index int
 
 	fmt.Print("Choose item : ")
-	fmt.Scan(&index)
+	reader.Scan()
 
 	fmt.Print("Type your update : ")
 
-	tasks, _ := reader.ReadString('\n')
+	tasks := reader.Text()
 
-	todo.UpdateTask(index, strings.Split(tasks, "\n")[0])
+	todo.UpdateTask(index, tasks)
 }
 
 func DoneTodo(todo *pkg.Todo) {
